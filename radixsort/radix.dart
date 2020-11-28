@@ -1,21 +1,23 @@
 //radix sort
+/*
+ radix sort is a non-comparative sorting algorithm. It avoids comparison by creating and distributing elements into buckets according to their radix.
+  For elements with more than one significant digit, this bucketing process is repeated for each digit, 
+ while preserving the ordering of the prior step, until all digits have been considered. For this reason, 
+ radix sort has also been called bucket sort and digital sort.
+ */
 import 'dart:math' as Math;
 
-
 main() {
-  // print(getDigitNum(7323, 11));
-  // print(digitCount(18683567));
-
-  //  print(maxDigits([1,22,333]));
-  // var n = 73.32
-  // print(n.round());
+  // print(radixSort([]));
+  var radixsort = radixSort([34, 2, 122, 24435, 23, 434, 232, 1323]);
+  print(radixsort);
 }
 
 getDigitNum(int n, int i) {
   // return ((n / 100).round() %10);
   // var cal = (n.abs() / Math.pow(10, =i)) % 10;
-  var cal = (n.round().abs() / Math.pow(10, i)) % 10;
   // var cal = (n / 100)%10;
+  var cal = (n.round().abs() / Math.pow(10, i)) % 10;
 
   return cal.round();
 }
@@ -35,74 +37,17 @@ mostDigits(List number) {
   return maxDigits;
 }
 
-radixSort(nums) {
+radixSort(List nums) {
   var maxDightCount = mostDigits(nums);
   for (var k = 0; k < maxDightCount; k++) {
-    // var digitBuckets = List.from({lenght:10,()});
+    var digitBuckets = List.generate(10, (_) => []);
+    // print(digitBuckets);
+    for (var i = 0; i < nums.length; i++) {
+      var digit = getDigitNum(nums[i], k);
+      digitBuckets[digit].add(nums[i]);
+    }
+
+    nums = digitBuckets.expand((lst) => lst).toList();
   }
+  return nums;
 }
-// Importing required libraries
-// import 'dart:io';
-
-// // Function to sort based on bits of integers using count sort
-// void countSort(List array, int n, int exp){
-//     List output = List(n);
-//     List count = List(10);
-//     for(int i = 0; i < 10; i ++){
-//         count[i] = 0;
-//     }
-//     for(int i = 0; i < n; i ++){
-//         count[((array[i] / exp).floor()) % 10] ++;
-//     }
-//     for(int i = 1; i < 10; i ++){
-//         count[i] += count[i - 1];
-//     }
-//     for(int i = n - 1; i >= 0; i --){
-//         output[count[((array[i] / exp).floor()) % 10] - 1] = array[i];
-//         count[((array[i] / exp).floor()) % 10] --;
-//     }
-//     for(int i = 0; i < n; i ++){
-//         array[i] = output[i];
-//     }
-// }
-// // Function to find max of the array
-// int getMax(List array, int n){
-//     int max_value = array[0];
-//     for(int i = 0; i < n; i ++){
-//         if(max_value < array[i]){
-//             max_value = array[i];
-//         }
-//     }
-//     return max_value;
-// }
-// // Function to sort an array using radix sort
-// void radix_sort(List array, int n){
-//     int max_value = getMax(array, n);
-//     for(int exp = 1; max_value / exp > 0; exp *= 10){
-//         countSort(array, n, exp);
-//     }
-// }
-// // Driver method of the program.
-// void main(){
-//     print("Enter number of elements in the array:");
-//     var input = stdin.readLineSync();
-//     int n = int.parse(input);
-
-//     print("Enter array elements:");
-//     input = stdin.readLineSync();
-//     var lis = input.split(" ");
-//     List array = lis.map(int.parse).toList();
-
-//     radix_sort(array, n);
-
-//     print(array.join(" "));
-// }
-// /**
-//  *   Sample Input and Output
-//  * ---------------------------------
-//  * Enter number of elements in the array:
-//  * 10
-//  * Enter array elements:
-//  * 10 9 8 7 6 5 4 3 2 1
-//  * 1 2 3 4 5 6 7 8 9 10
-//  */
